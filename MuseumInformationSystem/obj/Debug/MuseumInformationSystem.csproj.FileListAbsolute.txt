@@ -1,0 +1,12 @@
+C:\Users\dell\source\repos\MuseumInformationSystem\MuseumInformationSystem\bin\Debug\MuseumInformationSystem.exe.config
+C:\Users\dell\source\repos\MuseumInformationSystem\MuseumInformationSystem\bin\Debug\MuseumInformationSystem.exe
+C:\Users\dell\source\repos\MuseumInformationSystem\MuseumInformationSystem\bin\Debug\MuseumInformationSystem.pdb
+C:\Users\dell\source\repos\MuseumInformationSystem\MuseumInformationSystem\obj\Debug\MuseumInformationSystem.csprojAssemblyReference.cache
+C:\Users\dell\source\repos\MuseumInformationSystem\MuseumInformationSystem\obj\Debug\MuseumInformationSystem.Properties.Resources.resources
+C:\Users\dell\source\repos\MuseumInformationSystem\MuseumInformationSystem\obj\Debug\MuseumInformationSystem.csproj.GenerateResource.cache
+C:\Users\dell\source\repos\MuseumInformationSystem\MuseumInformationSystem\obj\Debug\MuseumInformationSystem.csproj.CoreCompileInputs.cache
+C:\Users\dell\source\repos\MuseumInformationSystem\MuseumInformationSystem\obj\Debug\MuseumInformationSystem.exe
+C:\Users\dell\source\repos\MuseumInformationSystem\MuseumInformationSystem\obj\Debug\MuseumInformationSystem.pdb
+C:\Users\dell\source\repos\MuseumInformationSystem\MuseumInformationSystem\obj\Debug\MuseumInformationSystem.MuseumForm.resources
+C:\Users\dell\source\repos\MuseumInformationSystem\MuseumInformationSystem\obj\Debug\MuseumInformationSystem.DailyReport.resources
+C:\Users\dell\source\repos\MuseumInformationSystem\MuseumInformationSystem\obj\Debug\MuseumInformationSystem.WeeklyReport.resources
