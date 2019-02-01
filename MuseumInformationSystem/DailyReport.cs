@@ -13,14 +13,15 @@ namespace MuseumInformationSystem
 {
     public partial class DailyReport : Form
     {
-        List<Visitor> lstVisitors = new List<Visitor>();
+        public List<Visitor> lstVisitors = new List<Visitor>();
+
         public DailyReport()
         {
             InitializeComponent();
             ReadFromCsv();
             //trigger date picker value changed 
-            datePicker.Value = DateTime.Today.AddDays(-1);
-            datePicker.Value = DateTime.Today;
+            datePicker.Value = DateTime.Now.AddDays(-1);
+            datePicker.Value = DateTime.Now;
         }
 
         private void ReadFromCsv()
@@ -39,7 +40,7 @@ namespace MuseumInformationSystem
             }
         }
 
-        private void datePicker_ValueChanged(object sender, EventArgs e)
+        private void DatePicker_ValueChanged(object sender, EventArgs e)
         {
             dgvDailyReport.Rows.Clear();
             String selectedDate = datePicker.Value.ToShortDateString();            
@@ -89,7 +90,7 @@ namespace MuseumInformationSystem
             lblOccupation.Text = "";
         }
 
-        private void dgvDailyReport_SelectionChanged(object sender, EventArgs e)
+        private void DgvDailyReport_SelectionChanged(object sender, EventArgs e)
         {
             if (!lblNoVisitorsMsg.Visible && dgvDailyReport.Focused)
             {
@@ -101,6 +102,10 @@ namespace MuseumInformationSystem
                 lblGender.Text = foundVisitor.Gender;
                 lblContactNumber.Text = foundVisitor.ContactNumber;
                 lblOccupation.Text = foundVisitor.Occupation;
+                lblVisitorInfoHelp.Visible = false;
+            } else
+            {
+                lblVisitorInfoHelp.Visible = true;
             }
         }
     }

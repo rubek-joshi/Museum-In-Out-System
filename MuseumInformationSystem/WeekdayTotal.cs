@@ -6,17 +6,10 @@ using System.Threading.Tasks;
 
 namespace MuseumInformationSystem
 {
-    class WeekdayTotal
+    public class WeekdayTotal
     {
-        public String Weekday { get; set; }
+        public string Weekday { get; set; }
         public int TotalVisitors { get; set; }
-
-        public WeekdayTotal() { }
-
-        public WeekdayTotal(String weekday, int totalVisitors)
-        {
-            Weekday = weekday;
-            TotalVisitors = totalVisitors;
-        }
+        public int TotalDuration { get; set; }
     }
 }

@@ -33,6 +33,8 @@
             this.dgvDailyReport = new System.Windows.Forms.DataGridView();
             this.VisitorNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Duration = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.InTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OutTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lblOccupation = new System.Windows.Forms.Label();
             this.lblContactNumber = new System.Windows.Forms.Label();
@@ -53,8 +55,7 @@
             this.lblTotalVisitors = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.InTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.OutTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lblVisitorInfoHelp = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDailyReport)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -64,11 +65,11 @@
             // 
             this.datePicker.CustomFormat = "dd-MMM-yyyy";
             this.datePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.datePicker.Location = new System.Drawing.Point(81, 23);
+            this.datePicker.Location = new System.Drawing.Point(81, 25);
             this.datePicker.Name = "datePicker";
             this.datePicker.Size = new System.Drawing.Size(200, 20);
             this.datePicker.TabIndex = 0;
-            this.datePicker.ValueChanged += new System.EventHandler(this.datePicker_ValueChanged);
+            this.datePicker.ValueChanged += new System.EventHandler(this.DatePicker_ValueChanged);
             // 
             // label1
             // 
@@ -97,9 +98,9 @@
             this.dgvDailyReport.ReadOnly = true;
             this.dgvDailyReport.RowHeadersVisible = false;
             this.dgvDailyReport.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvDailyReport.Size = new System.Drawing.Size(377, 250);
+            this.dgvDailyReport.Size = new System.Drawing.Size(377, 269);
             this.dgvDailyReport.TabIndex = 2;
-            this.dgvDailyReport.SelectionChanged += new System.EventHandler(this.dgvDailyReport_SelectionChanged);
+            this.dgvDailyReport.SelectionChanged += new System.EventHandler(this.DgvDailyReport_SelectionChanged);
             // 
             // VisitorNumber
             // 
@@ -112,6 +113,18 @@
             this.Duration.HeaderText = "Duration";
             this.Duration.Name = "Duration";
             this.Duration.ReadOnly = true;
+            // 
+            // InTime
+            // 
+            this.InTime.HeaderText = "Entry Time";
+            this.InTime.Name = "InTime";
+            this.InTime.ReadOnly = true;
+            // 
+            // OutTime
+            // 
+            this.OutTime.HeaderText = "Exit Time";
+            this.OutTime.Name = "OutTime";
+            this.OutTime.ReadOnly = true;
             // 
             // panel1
             // 
@@ -129,16 +142,16 @@
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label2);
-            this.panel1.Location = new System.Drawing.Point(477, 23);
+            this.panel1.Location = new System.Drawing.Point(428, 60);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(311, 287);
+            this.panel1.Size = new System.Drawing.Size(311, 269);
             this.panel1.TabIndex = 3;
             // 
             // lblOccupation
             // 
             this.lblOccupation.AutoSize = true;
             this.lblOccupation.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblOccupation.Location = new System.Drawing.Point(166, 237);
+            this.lblOccupation.Location = new System.Drawing.Point(103, 237);
             this.lblOccupation.Name = "lblOccupation";
             this.lblOccupation.Size = new System.Drawing.Size(11, 13);
             this.lblOccupation.TabIndex = 14;
@@ -148,7 +161,7 @@
             // 
             this.lblContactNumber.AutoSize = true;
             this.lblContactNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblContactNumber.Location = new System.Drawing.Point(165, 202);
+            this.lblContactNumber.Location = new System.Drawing.Point(102, 202);
             this.lblContactNumber.Name = "lblContactNumber";
             this.lblContactNumber.Size = new System.Drawing.Size(11, 13);
             this.lblContactNumber.TabIndex = 13;
@@ -158,7 +171,7 @@
             // 
             this.lblGender.AutoSize = true;
             this.lblGender.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGender.Location = new System.Drawing.Point(165, 166);
+            this.lblGender.Location = new System.Drawing.Point(102, 166);
             this.lblGender.Name = "lblGender";
             this.lblGender.Size = new System.Drawing.Size(11, 13);
             this.lblGender.TabIndex = 12;
@@ -168,7 +181,7 @@
             // 
             this.lblEmail.AutoSize = true;
             this.lblEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEmail.Location = new System.Drawing.Point(165, 133);
+            this.lblEmail.Location = new System.Drawing.Point(102, 133);
             this.lblEmail.Name = "lblEmail";
             this.lblEmail.Size = new System.Drawing.Size(11, 13);
             this.lblEmail.TabIndex = 11;
@@ -178,7 +191,7 @@
             // 
             this.lblDateOfBirth.AutoSize = true;
             this.lblDateOfBirth.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDateOfBirth.Location = new System.Drawing.Point(165, 99);
+            this.lblDateOfBirth.Location = new System.Drawing.Point(102, 99);
             this.lblDateOfBirth.Name = "lblDateOfBirth";
             this.lblDateOfBirth.Size = new System.Drawing.Size(11, 13);
             this.lblDateOfBirth.TabIndex = 10;
@@ -188,7 +201,7 @@
             // 
             this.lblFullName.AutoSize = true;
             this.lblFullName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFullName.Location = new System.Drawing.Point(166, 66);
+            this.lblFullName.Location = new System.Drawing.Point(103, 66);
             this.lblFullName.Name = "lblFullName";
             this.lblFullName.Size = new System.Drawing.Size(11, 13);
             this.lblFullName.TabIndex = 9;
@@ -278,14 +291,14 @@
             this.panel2.Controls.Add(this.label3);
             this.panel2.Location = new System.Drawing.Point(20, 336);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(274, 92);
+            this.panel2.Size = new System.Drawing.Size(378, 92);
             this.panel2.TabIndex = 5;
             // 
             // lblTotalDuration
             // 
             this.lblTotalDuration.AutoSize = true;
             this.lblTotalDuration.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTotalDuration.Location = new System.Drawing.Point(148, 60);
+            this.lblTotalDuration.Location = new System.Drawing.Point(212, 60);
             this.lblTotalDuration.Name = "lblTotalDuration";
             this.lblTotalDuration.Size = new System.Drawing.Size(13, 16);
             this.lblTotalDuration.TabIndex = 3;
@@ -295,7 +308,7 @@
             // 
             this.lblTotalVisitors.AutoSize = true;
             this.lblTotalVisitors.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTotalVisitors.Location = new System.Drawing.Point(148, 18);
+            this.lblTotalVisitors.Location = new System.Drawing.Point(212, 18);
             this.lblTotalVisitors.Name = "lblTotalVisitors";
             this.lblTotalVisitors.Size = new System.Drawing.Size(13, 16);
             this.lblTotalVisitors.TabIndex = 2;
@@ -321,23 +334,21 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "Total No. of Visitors";
             // 
-            // InTime
+            // lblVisitorInfoHelp
             // 
-            this.InTime.HeaderText = "Entry Time";
-            this.InTime.Name = "InTime";
-            this.InTime.ReadOnly = true;
-            // 
-            // OutTime
-            // 
-            this.OutTime.HeaderText = "Exit Time";
-            this.OutTime.Name = "OutTime";
-            this.OutTime.ReadOnly = true;
+            this.lblVisitorInfoHelp.AutoSize = true;
+            this.lblVisitorInfoHelp.Location = new System.Drawing.Point(428, 25);
+            this.lblVisitorInfoHelp.Name = "lblVisitorInfoHelp";
+            this.lblVisitorInfoHelp.Size = new System.Drawing.Size(303, 13);
+            this.lblVisitorInfoHelp.TabIndex = 6;
+            this.lblVisitorInfoHelp.Text = "Select a card number from the table to view the visitor\'s details.";
             // 
             // DailyReport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(762, 437);
+            this.Controls.Add(this.lblVisitorInfoHelp);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.lblNoVisitorsMsg);
             this.Controls.Add(this.panel1);
@@ -385,5 +396,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DataGridViewTextBoxColumn InTime;
         private System.Windows.Forms.DataGridViewTextBoxColumn OutTime;
+        private System.Windows.Forms.Label lblVisitorInfoHelp;
     }
 }

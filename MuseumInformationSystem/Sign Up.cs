@@ -14,16 +14,20 @@ namespace MuseumInformationSystem
 {
     public partial class MuseumForm : Form
     {
-        List<Visitor> lstVisitor = new List<Visitor>();
+        public List<Visitor> lstVisitor = new List<Visitor>();
 
         public MuseumForm()
         {
             InitializeComponent();
+            if (!File.Exists(@"Data.csv"))
+            {
+                File.Create(@"Data.csv");
+            }
             ReadFromCsv();
             FillGrid();
         }
 
-        private void btnIn_Click(object sender, EventArgs e)
+        private void BtnIn_Click(object sender, EventArgs e)
         {
             if (IsMuseumClose())
             {
@@ -49,6 +53,7 @@ namespace MuseumInformationSystem
                 }
                 catch (Exception err)
                 {
+                    Console.WriteLine(err.Message);
                     MessageBox.Show("Invalid Card Number.");
                     btnClear.PerformClick();
                     return;
@@ -57,7 +62,7 @@ namespace MuseumInformationSystem
                 //check double entry
                 if(lstVisitor.FirstOrDefault<Visitor>(item => item.CardNumber == cardNumber && item.ExitTime == default(DateTime)) != null)
                 {
-                    MessageBox.Show("Visitor cannot enter again without exiting.", "Entry failed!");
+                    MessageBox.Show("Visitor cannot enter again without exiting.", "Entry failed!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
             }
@@ -65,7 +70,7 @@ namespace MuseumInformationSystem
 
             if (txtFullName.Text == "")
             {
-                MessageBox.Show(signUpPanel, "Please enter full name and try again.", "Full Name missing!");
+                MessageBox.Show(GrpVisitorDetails, "Please enter full name and try again.", "Full Name missing!");
                 return;
             } else
             {
@@ -80,7 +85,7 @@ namespace MuseumInformationSystem
                 newVisitor.Email = txtEmail.Text;
             } else
             {
-                MessageBox.Show(signUpPanel, "Please enter email and try again.", "Invalid Email!");
+                MessageBox.Show(GrpVisitorDetails, "Please enter email and try again.", "Invalid Email!");
                 return;
             }
             if(radioBtnMale.Checked)
@@ -96,12 +101,12 @@ namespace MuseumInformationSystem
                 newVisitor.Gender = "Other";
             } else
             {
-                MessageBox.Show(signUpPanel, "Please select you gender and try again.", "Gender missing!");
+                MessageBox.Show(GrpVisitorDetails, "Please select you gender and try again.", "Gender missing!");
                 return;
             }
             if (occupationSelector.Text == "Select an occupation")
             {
-                MessageBox.Show(signUpPanel, "Please select an occupation.", "Occupation missing!");
+                MessageBox.Show(GrpVisitorDetails, "Please select an occupation.", "Occupation missing!");
                 return;
             }
             pattern = @"^(98\d{8})$";
@@ -112,7 +117,7 @@ namespace MuseumInformationSystem
             }
             else
             {
-                MessageBox.Show(signUpPanel, "Contact number should be in the format: 98XXXXXXXX", "Invalid Contact No.");
+                MessageBox.Show(GrpVisitorDetails, "Contact number should be in the format: 98XXXXXXXX", "Invalid Contact No.");
                 return;
             }
             newVisitor.Occupation = occupationSelector.Text;
@@ -124,6 +129,7 @@ namespace MuseumInformationSystem
             SaveToCSV(data);
             lstVisitor.Add(newVisitor);
             AddToGrid(newVisitor);
+            MessageBox.Show("Visitor has been successfully checked in!\nVisitor Card Number: " + newVisitor.CardNumber,"Successfully Checked In!", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private Boolean IsMuseumClose()
@@ -138,17 +144,17 @@ namespace MuseumInformationSystem
 
             if (presentDate.DayOfWeek == DayOfWeek.Saturday || presentDate.DayOfWeek == DayOfWeek.Sunday)
             {
-                MessageBox.Show("The museum is closed on weekends.", "Museum Closed!");
+                MessageBox.Show("The museum is closed on weekends.", "Museum Closed!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return true;
             }
             else if (now < start)
             {
-                MessageBox.Show("Museum has not opened yet.", "Museum currently closed!");
+                MessageBox.Show("Museum has not opened yet. It will open in 10 AM.", "Museum currently closed!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return true;
             }
             else if (now > end)
             {
-                MessageBox.Show("Museum has been closed. Come back another day", "Museum already closed!");
+                MessageBox.Show("Museum has been closed. Come back another day", "Museum already closed!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return true;
             }
             else
@@ -193,7 +199,6 @@ namespace MuseumInformationSystem
             //Grabbing new row
             DataGridViewRow row = dgvVisitors.Rows[rowId];
             //Populatin row
-            row.Cells["Day"].Value = visitor.EntryTime.DayOfWeek;
             row.Cells["CardNumber"].Value = visitor.CardNumber;
             row.Cells["FullName"].Value = visitor.FullName;
             row.Cells["DateOfBirth"].Value = visitor.DateOfBirth;
@@ -207,13 +212,18 @@ namespace MuseumInformationSystem
             {
                 row.Cells["Duration"].Value = CalculateDuration(visitor.EntryTime, visitor.ExitTime);
             }
+            
         }
 
         private void FillGrid()
         {
             foreach (Visitor visitor in lstVisitor)
             {
-                AddToGrid(visitor);
+                if (visitor.EntryTime.Date.ToShortDateString() == datePickerVisitors.Value.Date.ToShortDateString())
+                {
+                    AddToGrid(visitor);
+                }
+                //AddToGrid(visitor);
             }
         }
 
@@ -224,7 +234,7 @@ namespace MuseumInformationSystem
             dgvVisitors.ClearSelection();
         }
 
-        private void btnClear_Click(object sender, EventArgs e)
+        private void BtnClear_Click(object sender, EventArgs e)
         {
             txtCardNumber.Text = "";
             txtFullName.Text = "";
@@ -238,7 +248,7 @@ namespace MuseumInformationSystem
             dgvVisitors.ClearSelection();
         }
 
-        private void txtContactNumber_KeyPress(object sender, KeyPressEventArgs e)
+        private void TxtContactNumber_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
@@ -248,7 +258,7 @@ namespace MuseumInformationSystem
             }
         }
 
-        private void txtCardNumber_Leave(object sender, EventArgs e)
+        private void TxtCardNumber_Leave(object sender, EventArgs e)
         {
             if (int.TryParse(txtCardNumber.Text, out int cardNumber))
             {
@@ -276,12 +286,18 @@ namespace MuseumInformationSystem
                     }
                     txtContactNumber.Text = foundVisitor.ContactNumber;
                     occupationSelector.SelectedIndex = occupationSelector.FindStringExact(foundVisitor.Occupation);
-                    btnRegister.Focus();
+                    btnIn.Focus();
+
+                    int rowIndex = -1;
+                    DataGridViewRow row = dgvVisitors.Rows.Cast<DataGridViewRow>().Where(r => r.Cells["CardNumber"].Value.ToString().Equals(foundVisitor.CardNumber.ToString())).Last();
+
+                    rowIndex = row.Index;
+                    dgvVisitors.Rows[rowIndex].Selected = true;
                 }
             }
         }
 
-        private void txtCardNumber_KeyPress(object sender, KeyPressEventArgs e)
+        private void TxtCardNumber_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
@@ -291,7 +307,7 @@ namespace MuseumInformationSystem
             }
         }
 
-        private void btnOut_Click(object sender, EventArgs e)
+        private void BtnOut_Click(object sender, EventArgs e)
         {
             if(dgvVisitors.SelectedRows.Count == 1)
             {
@@ -305,13 +321,14 @@ namespace MuseumInformationSystem
                     UpdateCSV(leavingVisitor);
                     dgvVisitors.Rows.Clear();
                     FillGrid();
+                    MessageBox.Show("Visitor has been successfully checked out.", "Successfully Checked Out!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 } else
                 {
-                    MessageBox.Show("No record of entry to exit");
+                    MessageBox.Show("No visitor record of entry found to exit", "Record Not Found!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             } else
             {
-                MessageBox.Show("Please select a row in the table", "Selection missing");
+                MessageBox.Show("Please select a row in the table", "Selection missing", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -344,7 +361,7 @@ namespace MuseumInformationSystem
             return (int)Math.Round(exitTime.Subtract(entryTime).TotalMinutes);
         }
 
-        private void dgvVisitors_SelectionChanged(object sender, EventArgs e)
+        private void DgvVisitors_SelectionChanged(object sender, EventArgs e)
         {
             if (dgvVisitors.Focused)
             {
@@ -356,14 +373,38 @@ namespace MuseumInformationSystem
             }
         }
 
-        private void btnDailyReport_Click(object sender, EventArgs e)
+        private void BtnDailyReport_Click(object sender, EventArgs e)
         {
             new DailyReport().Show();
         }
 
-        private void btnWeeklyReport_Click(object sender, EventArgs e)
+        private void BtnWeeklyReport_Click(object sender, EventArgs e)
         {
             new WeeklyReport().Show();
+        }
+
+        private void TxtFullName_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar != ',')
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void TxtEmail_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar != ',')
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void DatePickerVisitors_ValueChanged(object sender, EventArgs e)
+        {
+            dgvVisitors.Rows.Clear();
+            FillGrid();
+            dgvVisitors.ClearSelection();
+            btnClear.PerformClick();
         }
     }
 }

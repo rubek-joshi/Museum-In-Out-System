@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace MuseumInformationSystem
 {
-    class Visitor
+    public class Visitor
     {
-        public Visitor(){
-        }
+        public Visitor(){ }
 
         public Visitor(string[] data)
         {

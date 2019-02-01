@@ -13,9 +13,9 @@ namespace MuseumInformationSystem
 {
     public partial class WeeklyReport : Form
     {
-        List<Visitor> lstVisitors = new List<Visitor>();
-        String[] weekdays;
-        WeekdayTotal[] weekdaysTotal = new WeekdayTotal[5];
+        public List<Visitor> lstVisitors = new List<Visitor>();
+        private string[] weekdays;
+        private WeekdayTotal[] weekdaysTotal = new WeekdayTotal[5];
 
         public WeeklyReport()
         {
@@ -52,11 +52,6 @@ namespace MuseumInformationSystem
             }
         }
 
-        private void orderSelector_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            PrepareReport();
-        }
-
         private int CalculateTotal(DateTime day)
         {
             int visitorCount = 0;
@@ -70,7 +65,20 @@ namespace MuseumInformationSystem
             return visitorCount;
         }
 
-        private void monthCalendar_DateSelected(object sender, DateRangeEventArgs e)
+        private int CalculateDuration(DateTime day)
+        {
+            int duration = 0;
+            foreach (Visitor visitor in lstVisitors)
+            {
+                if (visitor.EntryTime.Date.Equals(day.Date) && visitor.ExitTime != default(DateTime))
+                {
+                    duration += (int)Math.Round(visitor.ExitTime.Subtract(visitor.EntryTime).TotalMinutes);
+                }
+            }
+            return duration;
+        }
+
+        private void MonthCalendar_DateSelected(object sender, DateRangeEventArgs e)
         {
             DateTime date = monthCalendar.SelectionStart;
             int i = (int)date.DayOfWeek;
@@ -90,6 +98,7 @@ namespace MuseumInformationSystem
                 //Add to array
                 weekdaysTotal[i].Weekday = day;
                 weekdaysTotal[i].TotalVisitors = CalculateTotal(monday.AddDays(i));
+                weekdaysTotal[i].TotalDuration = CalculateDuration(monday.AddDays(i));
                 i++;
             }
 
@@ -114,7 +123,12 @@ namespace MuseumInformationSystem
             }
         }
 
-        private void monthCalendar_DateChanged(object sender, DateRangeEventArgs e)
+        private void MonthCalendar_DateChanged(object sender, DateRangeEventArgs e)
+        {
+            PrepareReport();
+        }
+
+        private void OrderSelector_SelectedIndexChanged(object sender, EventArgs e)
         {
             PrepareReport();
         }
@@ -124,7 +138,7 @@ namespace MuseumInformationSystem
             chartWeekly.Series["WeekDays"].Points.Clear();
             for(int i = 0; i < 5; i++)
             {
-                chartWeekly.Series["WeekDays"].Points.AddXY(w[i].Weekday, w[i].TotalVisitors);
+                chartWeekly.Series["WeekDays"].Points.AddXY(w[i].Weekday, w[i].TotalDuration);
             }
         }
 

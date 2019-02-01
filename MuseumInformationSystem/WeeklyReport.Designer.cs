@@ -51,11 +51,11 @@
             this.orderSelector.Items.AddRange(new object[] {
             "Ascending",
             "Descending"});
-            this.orderSelector.Location = new System.Drawing.Point(379, 21);
+            this.orderSelector.Location = new System.Drawing.Point(457, 21);
             this.orderSelector.Name = "orderSelector";
-            this.orderSelector.Size = new System.Drawing.Size(121, 21);
+            this.orderSelector.Size = new System.Drawing.Size(203, 21);
             this.orderSelector.TabIndex = 1;
-            this.orderSelector.SelectedIndexChanged += new System.EventHandler(this.orderSelector_SelectedIndexChanged);
+            this.orderSelector.SelectedIndexChanged += new System.EventHandler(this.OrderSelector_SelectedIndexChanged);
             // 
             // dgvWeeklyReport
             // 
@@ -95,8 +95,8 @@
             this.monthCalendar.SelectionRange = new System.Windows.Forms.SelectionRange(new System.DateTime(2019, 1, 28, 0, 0, 0, 0), new System.DateTime(2019, 2, 1, 0, 0, 0, 0));
             this.monthCalendar.ShowWeekNumbers = true;
             this.monthCalendar.TabIndex = 4;
-            this.monthCalendar.DateChanged += new System.Windows.Forms.DateRangeEventHandler(this.monthCalendar_DateChanged);
-            this.monthCalendar.DateSelected += new System.Windows.Forms.DateRangeEventHandler(this.monthCalendar_DateSelected);
+            this.monthCalendar.DateChanged += new System.Windows.Forms.DateRangeEventHandler(this.MonthCalendar_DateChanged);
+            this.monthCalendar.DateSelected += new System.Windows.Forms.DateRangeEventHandler(this.MonthCalendar_DateSelected);
             // 
             // label1
             // 
@@ -112,26 +112,34 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(312, 24);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(44, 13);
+            this.label2.Size = new System.Drawing.Size(139, 13);
             this.label2.TabIndex = 6;
-            this.label2.Text = "Sort By:";
+            this.label2.Text = "Sort Total No. of Visitors By:";
             // 
             // chartWeekly
             // 
             chartArea1.AxisX.LabelStyle.Format = "0.00";
+            chartArea1.AxisX.MajorGrid.Enabled = false;
+            chartArea1.AxisX.Title = "Weekdays";
+            chartArea1.AxisX.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            chartArea1.AxisY.Title = "Duration (in minutes)";
+            chartArea1.AxisY.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             chartArea1.Name = "ChartArea1";
             this.chartWeekly.ChartAreas.Add(chartArea1);
+            legend1.Enabled = false;
             legend1.Name = "Legend1";
             this.chartWeekly.Legends.Add(legend1);
             this.chartWeekly.Location = new System.Drawing.Point(18, 228);
             this.chartWeekly.Name = "chartWeekly";
             series1.ChartArea = "ChartArea1";
+            series1.IsValueShownAsLabel = true;
             series1.Legend = "Legend1";
             series1.Name = "WeekDays";
             this.chartWeekly.Series.Add(series1);
             this.chartWeekly.Size = new System.Drawing.Size(642, 300);
             this.chartWeekly.TabIndex = 7;
             this.chartWeekly.Text = "WeeklyChart";
+            title1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             title1.Name = "Title1";
             title1.Text = "Weekly Chart";
             this.chartWeekly.Titles.Add(title1);
